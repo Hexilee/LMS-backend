@@ -1,0 +1,20 @@
+services:
+  - mysql
+
+variables:
+  MYSQL_DATABASE: library
+  MYSQL_ROOT_PASSWORD: TestPassword
+
+build:
+  tags:
+  - docker-gradle
+
+  script:
+  - SPRING_PROFILES_ACTIVE=test gradle build --debug
+
+test:
+  tags:
+  - docker-gradle
+
+  script:
+  - SPRING_PROFILES_ACTIVE=test gradle test --debug
