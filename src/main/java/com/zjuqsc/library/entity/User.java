@@ -18,19 +18,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int uid;
 
-    @Column(length = 31, unique = true)
+    @Column(length = 31, unique = true, nullable = false)
     @NotBlank
     private String username;
 
-    @Column(length = 31, unique = true)
+    @Column(length = 31, unique = true, nullable = false)
     @Email
     private String email;
 
-    @Column(length = 31)
+    @Column(length = 31, nullable = false)
     @NotBlank
     private String name;
 
-    @Column(length = 63)
+    @Column(length = 63, nullable = false)
     @NotBlank
     private String password;
 

@@ -18,18 +18,18 @@ public class BookClass {
     private int bcid;
 
     @ISBN
-    @Column(length = 31, unique = true)
+    @Column(length = 31, unique = true, nullable = false)
     private String ISBN;
 
-    @Column(length = 31)
+    @Column(length = 31, nullable = false)
     @NotBlank
     private String name;
 
-    @Column(length = 31)
+    @Column(length = 31, nullable = false)
     @NotBlank
     private String author;
 
-    @Column
+    @Column(nullable = false)
     @NotBlank
     private String description;
 
@@ -38,18 +38,18 @@ public class BookClass {
 //    @OneToMany(targetEntity = Book.class, mappedBy = "bid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    private Book[] books;
 
-    @Column(nullable = false)
+    @Column
     @NotNull
     private Instant publishedAt;
 
     @CreationTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
+    @Column(insertable = false, updatable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @NotNull
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
+    @Column(insertable = false, updatable = false,
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     @NotNull
     private Instant updatedAt;

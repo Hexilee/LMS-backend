@@ -18,11 +18,13 @@ public class Borrow {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH},
             targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "uid")
+    @NotNull
     private User user;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH},
             targetEntity = Book.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "bid")
+    @NotNull
     private Book book;
 
     @Column(nullable = false)

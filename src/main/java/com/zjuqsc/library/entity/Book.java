@@ -18,6 +18,7 @@ public class Book {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH},
             targetEntity = BookClass.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "bcid")
+    @NotNull
     private BookClass bookClass;
 
     @Column(name = "`accessible`")
