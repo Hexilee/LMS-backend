@@ -2,7 +2,6 @@ package com.zjuqsc.library.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -24,11 +23,9 @@ public class Book {
     @Column(name = "`accessible`")
     @NotNull
     private boolean accessible;
-
-    @OrderColumn()
-    @OrderBy("borrow_id")
-    @OneToMany(targetEntity = Borrow.class, mappedBy = "borrowId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Borrow[] borrows;
+//
+//    @OneToMany(targetEntity = Borrow.class, mappedBy = "borrowId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Borrow[] borrows;
 
     @CreationTimestamp
     @Column(nullable = false, insertable = false, updatable = false,

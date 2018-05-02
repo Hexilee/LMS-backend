@@ -34,10 +34,10 @@ public class User {
     @NotBlank
     private String password;
 
-    @OrderColumn()
-    @OrderBy("borrow_id")
-    @OneToMany(targetEntity = Borrow.class, mappedBy = "borrowId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Borrow[] borrows;
+//    @OrderColumn()
+//    @OrderBy("borrow_id")
+//    @OneToMany(targetEntity = Borrow.class, mappedBy = "borrowId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Borrow[] borrows;
 
     @Column
     @NotNull

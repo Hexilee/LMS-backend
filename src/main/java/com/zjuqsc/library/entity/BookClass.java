@@ -33,10 +33,10 @@ public class BookClass {
     @NotBlank
     private String description;
 
-    @OrderColumn()
-    @OrderBy("bid")
-    @OneToMany(targetEntity = Book.class, mappedBy = "bid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Book[] books;
+//    @OrderColumn()
+//    @OrderBy("bid")
+//    @OneToMany(targetEntity = Book.class, mappedBy = "bid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private Book[] books;
 
     @Column(nullable = false)
     @NotNull
