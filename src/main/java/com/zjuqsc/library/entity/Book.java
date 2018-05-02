@@ -15,8 +15,11 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int bid;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH},
-            targetEntity = BookClass.class, fetch = FetchType.LAZY)
+    @ManyToOne(
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH},
+            targetEntity = BookClass.class,
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "bcid")
     @NotNull
     private BookClass bookClass;
@@ -29,14 +32,20 @@ public class Book {
 //    private Borrow[] borrows;
 
     @CreationTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant updatedAt;
 

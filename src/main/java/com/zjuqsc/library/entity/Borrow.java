@@ -15,14 +15,20 @@ public class Borrow {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int borrowId;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH},
-            targetEntity = User.class, fetch = FetchType.LAZY)
+    @ManyToOne(
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH},
+            targetEntity = User.class,
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "uid")
     @NotNull
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH},
-            targetEntity = Book.class, fetch = FetchType.LAZY)
+    @ManyToOne(
+            cascade = {CascadeType.MERGE, CascadeType.REFRESH},
+            targetEntity = Book.class,
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "bid")
     @NotNull
     private Book book;
@@ -35,14 +41,20 @@ public class Borrow {
     private Instant returnedAt;
 
     @CreationTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant updatedAt;
 

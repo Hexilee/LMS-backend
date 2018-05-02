@@ -2,7 +2,6 @@ package com.zjuqsc.library.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -18,19 +17,33 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int uid;
 
-    @Column(length = 31, unique = true, nullable = false)
+    @Column(
+            length = 31,
+            unique = true,
+            nullable = false
+    )
     @NotBlank
     private String username;
 
-    @Column(length = 31, unique = true, nullable = false)
+    @Column(
+            length = 31,
+            unique = true,
+            nullable = false
+    )
     @Email
     private String email;
 
-    @Column(length = 31, nullable = false)
+    @Column(
+            length = 31,
+            nullable = false
+    )
     @NotBlank
     private String name;
 
-    @Column(length = 63, nullable = false)
+    @Column(
+            length = 63,
+            nullable = false
+    )
     @NotBlank
     private String password;
 
@@ -44,14 +57,20 @@ public class User {
     private boolean isAdmin;
 
     @CreationTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false, insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant updatedAt;
 

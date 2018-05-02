@@ -18,14 +18,24 @@ public class BookClass {
     private int bcid;
 
     @ISBN
-    @Column(length = 31, unique = true, nullable = false)
+    @Column(
+            length = 31,
+            unique = true,
+            nullable = false
+    )
     private String ISBN;
 
-    @Column(length = 31, nullable = false)
+    @Column(
+            length = 31,
+            nullable = false
+    )
     @NotBlank
     private String name;
 
-    @Column(length = 31, nullable = false)
+    @Column(
+            length = 31,
+            nullable = false
+    )
     @NotBlank
     private String author;
 
@@ -43,14 +53,20 @@ public class BookClass {
     private Instant publishedAt;
 
     @CreationTimestamp
-    @Column(insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant createdAt;
 
     @UpdateTimestamp
-    @Column(insertable = false, updatable = false,
-            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    @Column(
+            insertable = false,
+            updatable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+    )
     @NotNull
     private Instant updatedAt;
 
