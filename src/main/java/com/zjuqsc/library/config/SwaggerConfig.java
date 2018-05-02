@@ -5,6 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author Li Chenxi
+ */
 @Data
 @ConfigurationProperties(prefix = "swagger")
 public class SwaggerConfig {

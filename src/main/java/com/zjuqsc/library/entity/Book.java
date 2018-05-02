@@ -10,6 +10,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Li Chenxi
+ */
 @Entity
 @Data
 public class Book {

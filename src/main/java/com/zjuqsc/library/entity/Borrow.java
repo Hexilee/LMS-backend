@@ -8,6 +8,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
+/**
+ * @author Li Chenxi
+ */
 @Entity
 @Data
 public class Borrow {
