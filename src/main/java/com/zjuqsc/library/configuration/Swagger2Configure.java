@@ -34,8 +34,7 @@ public class Swagger2Configure {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.zjuqsc.library"))
                 .paths(PathSelectors.any())
-                .build()
-                .pathMapping("/api");
+                .build();
     }
 
     private ApiInfo apiInfo() {
