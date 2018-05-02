@@ -4,9 +4,8 @@ import com.zjuqsc.library.auth.dto.TokenDto;
 import com.zjuqsc.library.user.dto.CreateUserDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 /**
  * @author Li Chenxi
@@ -23,7 +22,7 @@ public class UserController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public TokenDto register(
-            @Valid @RequestBody CreateUserDto createUserDto
+            @Validated @RequestBody CreateUserDto createUserDto
     ) {
         userService.saveUser(
                 userService.newUser(createUserDto)

@@ -11,8 +11,8 @@ import java.util.List;
  */
 @Data
 public class ErrorInfoDto<T> {
-    private Instant time;
+    private Instant time = Instant.now();
     private String message;
     private String url;
-    private List<T> errors = new ArrayList<>();
+    private List<T> error = new ArrayList<>();
 }
