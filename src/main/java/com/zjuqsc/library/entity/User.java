@@ -9,6 +9,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -47,10 +49,14 @@ public class User {
     @NotBlank
     private String password;
 
-//    @OrderColumn()
-//    @OrderBy("borrow_id")
-//    @OneToMany(targetEntity = Borrow.class, mappedBy = "borrowId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Borrow[] borrows;
+    @OneToMany(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @OrderBy("borrow_id desc")
+    private List<Borrow> borrows = new ArrayList<>();
+
 
     @Column
     @NotNull

@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,9 +29,14 @@ public class Book {
     @Column(name = "`accessible`")
     @NotNull
     private boolean accessible;
-//
-//    @OneToMany(targetEntity = Borrow.class, mappedBy = "borrowId", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Borrow[] borrows;
+
+    @OneToMany(
+            mappedBy = "book",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @OrderBy("borrow_id desc")
+    private List<Borrow> borrows = new ArrayList<>();
 
     @CreationTimestamp
     @Column(

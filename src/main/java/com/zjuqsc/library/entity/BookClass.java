@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -43,10 +45,13 @@ public class BookClass {
     @NotBlank
     private String description;
 
-//    @OrderColumn()
-//    @OrderBy("bid")
-//    @OneToMany(targetEntity = Book.class, mappedBy = "bid", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private Book[] books;
+    @OneToMany(
+            mappedBy = "bookClass",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    @OrderBy("bid desc")
+    private List<Book> books = new ArrayList<>();
 
     @Column
     @NotNull
