@@ -1,10 +1,12 @@
 package com.zjuqsc.library.user;
 
 import com.zjuqsc.library.auth.dto.TokenDto;
+import com.zjuqsc.library.user.dto.CreateUserDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author Li Chenxi
@@ -12,8 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public TokenDto register() {
+    @ResponseStatus(HttpStatus.CREATED)
+    public TokenDto register(
+            @Valid @RequestBody CreateUserDto createUserDto
+    ) {
+        userService.saveUser(
+                userService.newUser(createUserDto)
+        );
         return new TokenDto(3600, "new token");
     }
 }

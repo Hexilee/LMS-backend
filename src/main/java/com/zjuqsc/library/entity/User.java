@@ -63,7 +63,7 @@ public class User {
 
     @Column
     @NotNull
-    private boolean isAdmin;
+    private boolean isAdmin = false;
 
     @CreationTimestamp
     @Column(
@@ -72,7 +72,7 @@ public class User {
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
     )
     @NotNull
-    private Instant createdAt;
+    private Instant createdAt = Instant.EPOCH;
 
     @UpdateTimestamp
     @Column(
@@ -81,7 +81,7 @@ public class User {
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
     )
     @NotNull
-    private Instant updatedAt;
+    private Instant updatedAt = Instant.EPOCH;
 
     @Column
     private Instant deletedAt;

@@ -67,7 +67,7 @@ public class BookClass {
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
     )
     @NotNull
-    private Instant createdAt;
+    private Instant createdAt = Instant.EPOCH;
 
     @UpdateTimestamp
     @Column(
@@ -76,7 +76,7 @@ public class BookClass {
             columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
     )
     @NotNull
-    private Instant updatedAt;
+    private Instant updatedAt = Instant.EPOCH;
 
     @Column
     private Instant deletedAt;
