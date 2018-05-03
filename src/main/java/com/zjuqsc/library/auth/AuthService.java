@@ -13,5 +13,6 @@ public interface AuthService {
      * @return tokenDto token and expiration time
      */
     TokenDto register(User user);
-    String login(String username, String password);
+    TokenDto loginWithEmail(String email, String password);
+    TokenDto loginWithUsername(String username, String password);
 }

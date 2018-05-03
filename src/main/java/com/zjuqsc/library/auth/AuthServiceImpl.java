@@ -5,6 +5,7 @@ import com.zjuqsc.library.auth.dto.TokenDto;
 import com.zjuqsc.library.entity.User;
 import com.zjuqsc.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,24 +15,43 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private AuthFactory authFactory;
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthServiceImpl(AuthFactory authFactory, UserRepository userRepository) {
+    public AuthServiceImpl(AuthFactory authFactory, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.authFactory = authFactory;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
-    public TokenDto register(User user) {
+    private TokenDto genTokenDtoByUser(User user) {
         return authFactory.createTokenDto(
-                authFactory.createUserInfo(
-                        userRepository.save(user)
-                )
+                authFactory.createUserInfo(user)
         );
     }
 
     @Override
-    public String login(String username, String password) {
-        return null;
+    public TokenDto register(User user) {
+        return genTokenDtoByUser(userRepository.save(user));
+    }
+
+    @Override
+    public TokenDto loginWithEmail(String email, String password) {
+        TokenDto tokenDto = null;
+        User user = userRepository.findByEmail(email);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            tokenDto = genTokenDtoByUser(user);
+        }
+        return tokenDto;
+    }
+
+    @Override
+    public TokenDto loginWithUsername(String username, String password) {
+        TokenDto tokenDto = null;
+        User user = userRepository.findByUsername(username);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            tokenDto = genTokenDtoByUser(user);
+        }
+        return tokenDto;
     }
 }
