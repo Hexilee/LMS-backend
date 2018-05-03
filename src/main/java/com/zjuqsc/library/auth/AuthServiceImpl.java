@@ -23,8 +23,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenDto register(User user) {
-        return authFactory.genToken(
-                authFactory.genUserInfo(
+        return authFactory.createTokenDto(
+                authFactory.createUserInfo(
                         userRepository.save(user)
                 )
         );

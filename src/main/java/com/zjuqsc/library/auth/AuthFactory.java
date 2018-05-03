@@ -3,6 +3,8 @@ package com.zjuqsc.library.auth;
 import com.zjuqsc.library.auth.dto.TokenDto;
 import com.zjuqsc.library.auth.dto.UserInfoDto;
 import com.zjuqsc.library.entity.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +25,7 @@ public class AuthFactory {
     @Value("${security.jwt.secret}")
     private String secret;
 
-    public TokenDto genToken(UserInfoDto userInfoDto) {
+    public TokenDto createTokenDto(UserInfoDto userInfoDto) {
         String token = Jwts.builder()
                 .claim(AuthConstant.USER_KEY, userInfoDto)
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -32,7 +34,7 @@ public class AuthFactory {
         return new TokenDto(expiration, token);
     }
 
-    public UserInfoDto genUserInfo(User user) {
+    public UserInfoDto createUserInfo(User user) {
         UserInfoDto info = new UserInfoDto();
         info.setUid(user.getUid());
         info.setEmail(user.getEmail());
@@ -48,5 +50,12 @@ public class AuthFactory {
                 }}
         );
         return info;
+    }
+
+    public UserInfoDto createUserInfo(String token) {
+        Jws<Claims> claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token);
+        return claims.getBody().get(AuthConstant.USER_KEY, UserInfoDto.class);
     }
 }
