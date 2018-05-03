@@ -32,3 +32,6 @@ swagger:
 security:
   bcrypt:
     rounds: 10
+  jwt:
+    expiration: 3600
+    secret: gTGWdOqlEWwLOq7wPZ3gEHVq3ehnSQvrgGuGvC9YBFjrcbEbq0vw3KBqoM4dzuua3l3l3KTHmBQrVouOHpRBX33BDgs3OK3BJD5b
