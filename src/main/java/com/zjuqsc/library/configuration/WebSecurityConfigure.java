@@ -2,13 +2,18 @@ package com.zjuqsc.library.configuration;
 
 import com.zjuqsc.library.auth.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -18,6 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
+    @Value("${security.bcrypt.rounds}")
+    int rounds;
+
     private static final String[] SWAGGER_WHITELIST = {
             // -- swagger ui
             "/swagger-resources/**",
@@ -31,6 +39,12 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Autowired
     public WebSecurityConfigure(JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
         this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
+    }
+
+    @Bean
+    @Primary
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(rounds);
     }
 
     @Override

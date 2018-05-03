@@ -2,8 +2,8 @@ package com.zjuqsc.library.user;
 
 import com.zjuqsc.library.entity.User;
 import com.zjuqsc.library.user.dto.CreateUserDto;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,15 +11,19 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class UserFactory {
-    @Value("${security.bcrypt.rounds}")
-    int rounds;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserFactory(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public User create(CreateUserDto createUserDto) {
         User user = new User();
         user.setUsername(createUserDto.getUsername());
         user.setEmail(createUserDto.getEmail());
         user.setName(createUserDto.getName());
-        user.setPassword(new BCryptPasswordEncoder(rounds).encode(createUserDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(createUserDto.getPassword()));
         return user;
     }
 }
