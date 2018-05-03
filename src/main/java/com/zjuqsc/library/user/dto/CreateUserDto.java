@@ -4,13 +4,17 @@ import lombok.Getter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * @author Li Chenxi
  */
 public class CreateUserDto {
+    /**
+     * username cannot contain @
+     */
     @Getter
-    @NotBlank
+    @Pattern(regexp = "^[^@]+$")
     private String username;
 
     @Getter
