@@ -1,5 +1,6 @@
 package com.zjuqsc.library.user.dto;
 
+import com.zjuqsc.library.Constants;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
@@ -14,7 +15,7 @@ public class CreateUserDto {
      * username cannot contain @
      */
     @Getter
-    @Pattern(regexp = "^[^@]+$")
+    @Pattern(regexp = Constants.Regex.CANNOT_BE_EMAIL)
     private String username;
 
     @Getter

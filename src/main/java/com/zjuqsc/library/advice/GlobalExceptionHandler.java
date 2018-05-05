@@ -1,6 +1,7 @@
 package com.zjuqsc.library.advice;
 
 import com.zjuqsc.library.advice.dto.ErrorInfoDto;
+import com.zjuqsc.library.token.exception.ResourceKeyNotExistException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -23,7 +24,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ErrorInfoDto constraintViolationHandler(HttpServletRequest req, DataIntegrityViolationException e) throws Exception {
+    public ErrorInfoDto constraintViolationHandler(HttpServletRequest req, DataIntegrityViolationException e) {
         ErrorInfoDto<String> errorInfoDto = new ErrorInfoDto<>();
         errorInfoDto.setMessage(DATA_CONFLICT);
         errorInfoDto.setUrl(req.getRequestURL().toString());
@@ -33,13 +34,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorInfoDto methodArgumentNotValidExceptionHandler(HttpServletRequest req, MethodArgumentNotValidException exception) throws Exception {
+    public ErrorInfoDto methodArgumentNotValidExceptionHandler(HttpServletRequest req, MethodArgumentNotValidException exception) {
         ErrorInfoDto<String> errorInfoDto = new ErrorInfoDto<>();
         errorInfoDto.setMessage(BODY_INVALID);
         errorInfoDto.setUrl(req.getRequestURL().toString());
         for (FieldError error : exception.getBindingResult().getFieldErrors()) {
             errorInfoDto.getErrors().add(error.getField());
         }
+        return errorInfoDto;
+    }
+
+    @ExceptionHandler(value = ResourceKeyNotExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorInfoDto httpRetryExceptionHandler(HttpServletRequest req, ResourceKeyNotExistException e) {
+        ErrorInfoDto<String> errorInfoDto = new ErrorInfoDto<>();
+        errorInfoDto.setMessage(BODY_INVALID);
+        errorInfoDto.setUrl(req.getRequestURL().toString());
+        errorInfoDto.getErrors().add(e.getMessage());
         return errorInfoDto;
     }
 }
