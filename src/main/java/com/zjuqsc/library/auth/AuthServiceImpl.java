@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenDto register(User user) {
-        return genTokenDtoByUser(userRepository.save(user));
+        return genTokenDtoByUser(userRepository.saveAndFlush(user));
     }
 
     @Override
