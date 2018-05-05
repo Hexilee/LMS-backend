@@ -2,7 +2,7 @@ services:
   - mysql
 
 variables:
-  MYSQL_DATABASE: library
+  MYSQL_DATABASE: library_test
   MYSQL_ROOT_PASSWORD: TestPassword
 
 build:
