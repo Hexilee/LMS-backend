@@ -76,7 +76,7 @@ public class UserControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn();
-        ErrorInfoDto<String> result = jacksonObjectMapper.readValue(mvcResult.getResponse().getContentAsString(), ErrorInfoDto.class);
+        ErrorInfoDto result = jacksonObjectMapper.readValue(mvcResult.getResponse().getContentAsString(), ErrorInfoDto.class);
         Assert.assertEquals("Request data invalid", result.getMessage());
         Assert.assertEquals(4, result.getErrors().size());
     }
@@ -97,7 +97,7 @@ public class UserControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andReturn();
-        HashMap<String, String> result = jacksonObjectMapper.readValue(mvcResult.getResponse().getContentAsString(), HashMap.class);
+        HashMap<?, ?> result = jacksonObjectMapper.readValue(mvcResult.getResponse().getContentAsString(), HashMap.class);
         Assert.assertNotNull(result.get("token"));
         Assert.assertNotNull(result.get("expiresIn"));
     }
@@ -119,7 +119,7 @@ public class UserControllerTests {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isConflict())
                 .andReturn();
-        ErrorInfoDto<String> result = jacksonObjectMapper.readValue(mvcResult.getResponse().getContentAsString(), ErrorInfoDto.class);
+        ErrorInfoDto<?> result = jacksonObjectMapper.readValue(mvcResult.getResponse().getContentAsString(), ErrorInfoDto.class);
         Assert.assertEquals("Data conflict", result.getMessage());
         Assert.assertEquals(1, result.getErrors().size());
     }
