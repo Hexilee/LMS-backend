@@ -10,11 +10,11 @@ build:
   - docker-gradle
 
   script:
-  - SPRING_PROFILES_ACTIVE=test gradle build --debug
+  - SPRING_PROFILES_ACTIVE=test gradle build
 
 test:
   tags:
   - docker-gradle
 
   script:
-  - SPRING_PROFILES_ACTIVE=test gradle test --debug
+  - SPRING_PROFILES_ACTIVE=test gradle test
