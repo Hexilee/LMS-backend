@@ -20,7 +20,7 @@ import java.util.List;
 public class BookClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int bcid;
+    private Integer bcid;
 
     @ISBN
     @Column(
@@ -28,7 +28,7 @@ public class BookClass {
             unique = true,
             nullable = false
     )
-    private String ISBN;
+    private String isbn;
 
     @Column(
             length = 31,

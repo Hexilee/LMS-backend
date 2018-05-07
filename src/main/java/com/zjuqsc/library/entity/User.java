@@ -19,7 +19,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int uid;
+    private Integer uid;
 
     @Column(
             length = 31,

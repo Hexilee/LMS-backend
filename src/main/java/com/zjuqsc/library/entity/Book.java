@@ -18,7 +18,7 @@ import java.util.List;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int bid;
+    private Integer bid;
 
     @ManyToOne(
             cascade = {CascadeType.MERGE, CascadeType.REFRESH},

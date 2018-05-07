@@ -16,7 +16,7 @@ import java.time.Instant;
 public class Borrow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int borrowId;
+    private Integer borrowId;
 
     @ManyToOne(
             cascade = {CascadeType.MERGE, CascadeType.REFRESH},
