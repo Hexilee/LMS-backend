@@ -44,13 +44,6 @@ public class BookClass {
     @NotBlank
     private String author;
 
-    @Column(
-            length = 15,
-            nullable = false
-    )
-    @NotBlank
-    private String tag;
-
     @Column(nullable = false)
     @NotBlank
     private String description;
