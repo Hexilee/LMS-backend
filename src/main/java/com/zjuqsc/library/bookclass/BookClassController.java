@@ -3,6 +3,7 @@ package com.zjuqsc.library.bookclass;
 import com.zjuqsc.library.advice.dto.ErrorInfoDto;
 import com.zjuqsc.library.bookclass.dto.BookClassDto;
 import com.zjuqsc.library.bookclass.dto.BookClassQueryDto;
+import com.zjuqsc.library.bookclass.dto.CreateBookClassDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -25,10 +27,12 @@ public class BookClassController {
     private static final String QUERY_KEY = "query";
 
     private BookClassService bookClassService;
+    private BookClassUtils bookClassUtils;
 
     @Autowired
-    public BookClassController(BookClassService bookClassService) {
+    public BookClassController(BookClassService bookClassService, BookClassUtils bookClassUtils) {
         this.bookClassService = bookClassService;
+        this.bookClassUtils = bookClassUtils;
     }
 
     @ApiOperation(value = "Get bookClasses")
@@ -43,4 +47,16 @@ public class BookClassController {
         }
         return bookClassService.getBookClassPage(pages, new BookClassQueryDto(query));
     }
+
+    @ApiOperation(value = "Create a new bookClass")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorInfoDto.class),
+            @ApiResponse(code = 409, message = "Conflict", response = ErrorInfoDto.class),
+    })
+    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookClassDto register(@Validated @RequestBody CreateBookClassDto createBookClassDto) {
+        return bookClassService.register(bookClassUtils.create(createBookClassDto));
+    }
+
 }

@@ -30,19 +30,19 @@ public class BookClassServiceImpl implements BookClassService {
     private Integer size;
 
     private BookClassRepository bookClassRepository;
-    private BookClassFactory bookClassFactory;
+    private BookClassUtils bookClassUtils;
 
     @Autowired
-    public BookClassServiceImpl(BookClassRepository bookClassRepository, BookClassFactory bookClassFactory) {
+    public BookClassServiceImpl(BookClassRepository bookClassRepository, BookClassUtils bookClassUtils) {
         this.bookClassRepository = bookClassRepository;
-        this.bookClassFactory = bookClassFactory;
+        this.bookClassUtils = bookClassUtils;
     }
 
     @Override
     public Page<BookClassDto> getBookClassPage(Integer pageNum) {
         Pageable pageable = new PageRequest(pageNum, size, Sort.Direction.DESC, BOOK_CLASS_ID_KEY);
         return bookClassRepository.findAll(pageable)
-                .map(bookClass -> bookClassFactory.create(bookClass));
+                .map(bookClass -> bookClassUtils.create(bookClass));
     }
 
     @Override
@@ -64,7 +64,7 @@ public class BookClassServiceImpl implements BookClassService {
                     return criteriaBuilder.and(list.toArray(p));
 
                 }, pageable);
-        return bookClassPage.map(bookClass -> bookClassFactory.create(bookClass));
+        return bookClassPage.map(bookClass -> bookClassUtils.create(bookClass));
     }
 
     @Override
@@ -75,5 +75,12 @@ public class BookClassServiceImpl implements BookClassService {
     @Override
     public BookClassDto getBookClass(String isbn) {
         return null;
+    }
+
+    @Override
+    public BookClassDto register(BookClass bookClass) {
+        return bookClassUtils.create(
+                bookClassRepository.saveAndFlush(bookClass)
+        );
     }
 }
