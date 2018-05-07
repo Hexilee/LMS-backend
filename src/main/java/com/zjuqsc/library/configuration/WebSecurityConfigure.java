@@ -61,6 +61,10 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
                         "/user/**",
                         "/token/**"
                 ).permitAll()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/bookClass/**"
+                ).permitAll()
                 .anyRequest()
                 .authenticated();
         httpSecurity

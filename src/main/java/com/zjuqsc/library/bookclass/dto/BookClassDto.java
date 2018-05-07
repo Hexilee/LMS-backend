@@ -1,13 +1,13 @@
 package com.zjuqsc.library.bookclass.dto;
 
-import lombok.Builder;
+import lombok.Data;
 import org.hibernate.validator.constraints.ISBN;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
-@Builder
+@Data
 public class BookClassDto {
     @NotNull
     private Integer bcid;
