@@ -1,18 +1,17 @@
 package com.zjuqsc.library.token.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 /**
  * @author Li Chenxi
  */
+@Data
 public class LoginDto {
-    @Getter
     @NotBlank
     private String usernameOrEmail;
 
-    @Getter
     @NotBlank
     private String password;
 }

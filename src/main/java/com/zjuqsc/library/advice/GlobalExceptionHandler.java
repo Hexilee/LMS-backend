@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorInfoDto httpRetryExceptionHandler(HttpServletRequest req, ResourceKeyNotExistException e) {
         ErrorInfoDto<String> errorInfoDto = new ErrorInfoDto<>();
-        errorInfoDto.setMessage(BODY_INVALID);
+        errorInfoDto.setMessage(DATA_CONFLICT);
         errorInfoDto.setUrl(req.getRequestURL().toString());
         errorInfoDto.getErrors().add(e.getMessage());
         return errorInfoDto;
