@@ -18,7 +18,7 @@ import java.util.Date;
  * @author Li Chenxi
  */
 @Component
-public class AuthFactory {
+public class AuthUtils {
     @Value("${security.jwt.expiration}")
     private Integer expiration;
 

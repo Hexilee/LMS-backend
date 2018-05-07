@@ -27,11 +27,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${security.jwt.tokenHead}")
     private String tokenHead;
 
-    private AuthFactory authFactory;
+    private AuthUtils authUtils;
 
     @Autowired
-    public JwtAuthenticationTokenFilter(AuthFactory authFactory) {
-        this.authFactory = authFactory;
+    public JwtAuthenticationTokenFilter(AuthUtils authUtils) {
+        this.authUtils = authUtils;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith(tokenHead)) {
             final String authToken = authHeader.substring(tokenHead.length());
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = authFactory.createUserInfo(authToken);
+                UserDetails userDetails = authUtils.createUserInfo(authToken);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(

@@ -13,20 +13,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AuthServiceImpl implements AuthService {
-    private AuthFactory authFactory;
+    private AuthUtils authUtils;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthServiceImpl(AuthFactory authFactory, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.authFactory = authFactory;
+    public AuthServiceImpl(AuthUtils authUtils, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.authUtils = authUtils;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     private TokenDto genTokenDtoByUser(User user) {
-        return authFactory.createTokenDto(
-                authFactory.createUserInfo(user)
+        return authUtils.createTokenDto(
+                authUtils.createUserInfo(user)
         );
     }
 
