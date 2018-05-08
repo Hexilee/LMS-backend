@@ -27,7 +27,7 @@ public class CreateBookClassDto {
     private String name;
 
     @NotBlank
-    @Size(max = 31)
+    @Size(max = 63)
     @ApiModelProperty(example = "John L Hennessey")
     private String author;
 
