@@ -1,6 +1,7 @@
 package com.zjuqsc.library.configuration;
 
 import com.zjuqsc.library.config.SwaggerConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
@@ -26,6 +28,9 @@ import java.util.Arrays;
 @EnableSwagger2
 @EnableConfigurationProperties(SwaggerConfig.class)
 public class Swagger2Configure {
+    @Value("${security.jwt.header}")
+    private String tokenHeader;
+
     private static final ResponseMessage CONFLICT_RESPONSE_MESSAGE = new ResponseMessageBuilder()
             .code(HttpStatus.CONFLICT.value())
             .message(HttpStatus.CONFLICT.getReasonPhrase())
@@ -53,7 +58,8 @@ public class Swagger2Configure {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.zjuqsc.library"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .securitySchemes(Arrays.asList(apiKey()));
     }
 
     private ApiInfo apiInfo() {
@@ -70,5 +76,9 @@ public class Swagger2Configure {
                         info.getContactEmail()
                 ))
                 .build();
+    }
+
+    private ApiKey apiKey() {
+        return new ApiKey("authKey", tokenHeader, "header");
     }
 }
