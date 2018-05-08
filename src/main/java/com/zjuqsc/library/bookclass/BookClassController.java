@@ -1,17 +1,19 @@
 package com.zjuqsc.library.bookclass;
 
 import com.zjuqsc.library.advice.dto.ErrorInfoDto;
+import com.zjuqsc.library.auth.AuthConstant;
 import com.zjuqsc.library.bookclass.dto.BookClassDto;
 import com.zjuqsc.library.bookclass.dto.BookClassQueryDto;
 import com.zjuqsc.library.bookclass.dto.CreateBookClassDto;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
 
 /**
  * @author Li Chenxi
@@ -45,15 +47,15 @@ public class BookClassController {
         return bookClassService.getBookClassPage(pages, new BookClassQueryDto(query));
     }
 
-    @ApiOperation(value = "Create a new bookClass")
+    @ApiOperation(value = "Create a new bookClass", authorizations = @Authorization(value = "authKey"))
     @ApiResponses({
             @ApiResponse(code = 400, message = "Bad Request", response = ErrorInfoDto.class),
             @ApiResponse(code = 409, message = "Conflict", response = ErrorInfoDto.class),
     })
+    @RolesAllowed(AuthConstant.ADMIN)
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public BookClassDto register(@Validated @RequestBody CreateBookClassDto createBookClassDto) {
         return bookClassService.register(bookClassUtils.create(createBookClassDto));
     }
-
 }

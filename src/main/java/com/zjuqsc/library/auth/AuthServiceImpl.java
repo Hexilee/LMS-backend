@@ -1,6 +1,7 @@
 package com.zjuqsc.library.auth;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zjuqsc.library.auth.dto.TokenDto;
 import com.zjuqsc.library.entity.User;
 import com.zjuqsc.library.repository.UserRepository;

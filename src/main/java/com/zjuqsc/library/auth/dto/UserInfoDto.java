@@ -1,10 +1,13 @@
 package com.zjuqsc.library.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zjuqsc.library.auth.AuthConstant;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -17,7 +20,7 @@ public class UserInfoDto implements UserDetails {
     private String email;
     private String password;
     private String name;
-    private Collection<? extends GrantedAuthority> authorities;
+    private boolean isAdmin;
 
     @JsonIgnore
     @Override
@@ -41,5 +44,16 @@ public class UserInfoDto implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<SimpleGrantedAuthority>() {{
+            add(new SimpleGrantedAuthority(AuthConstant.ROLE_USER));
+            if (isAdmin) {
+                add(new SimpleGrantedAuthority(AuthConstant.ROLE_ADMIN));
+            }
+        }};
     }
 }

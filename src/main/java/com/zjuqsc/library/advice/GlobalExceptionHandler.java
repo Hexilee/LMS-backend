@@ -2,6 +2,7 @@ package com.zjuqsc.library.advice;
 
 import com.zjuqsc.library.advice.dto.ErrorInfoDto;
 import com.zjuqsc.library.token.exception.ResourceKeyNotExistException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -51,6 +52,16 @@ public class GlobalExceptionHandler {
         errorInfoDto.setMessage(DATA_CONFLICT);
         errorInfoDto.setUrl(req.getRequestURL().toString());
         errorInfoDto.getErrors().add(e.getMessage());
+        return errorInfoDto;
+    }
+
+    @ExceptionHandler(value = JwtException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorInfoDto expiredJwtExceptionHandler(HttpServletRequest req, JwtException e) {
+        ErrorInfoDto<String> errorInfoDto = new ErrorInfoDto<>();
+        errorInfoDto.setMessage(HttpStatus.FORBIDDEN.getReasonPhrase());
+        errorInfoDto.setUrl(req.getRequestURL().toString());
+        errorInfoDto.getErrors().add(e.getLocalizedMessage());
         return errorInfoDto;
     }
 }

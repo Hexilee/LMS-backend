@@ -34,6 +34,9 @@ security:
     rounds: 10
   jwt:
     header: Authorization
-    expiration: 3600
+    expiration: 3600 # s
     tokenHead: "Bearer "
     secret: gTGWdOqlEWwLOq7wPZ3gEHVq3ehnSQvrgGuGvC9YBFjrcbEbq0vw3KBqoM4dzuua3l3l3KTHmBQrVouOHpRBX33BDgs3OK3BJD5b
+
+pageable:
+  size: 10

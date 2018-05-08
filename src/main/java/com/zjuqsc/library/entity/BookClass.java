@@ -31,14 +31,14 @@ public class BookClass {
     private String isbn;
 
     @Column(
-            length = 31,
+            length = 127,
             nullable = false
     )
     @NotBlank
     private String name;
 
     @Column(
-            length = 31,
+            length = 63,
             nullable = false
     )
     @NotBlank
