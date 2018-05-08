@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * @author Li Chenxi
  */
 public interface BookClassRepository extends JpaRepository<BookClass, Integer>, JpaSpecificationExecutor<BookClass> {
-
+    BookClass findByIsbn(String isbn);
 }

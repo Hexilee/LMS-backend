@@ -1,6 +1,7 @@
 package com.zjuqsc.library.advice;
 
 import com.zjuqsc.library.advice.dto.ErrorInfoDto;
+import com.zjuqsc.library.exception.ObjectNotFoundException;
 import com.zjuqsc.library.token.exception.ResourceKeyNotExistException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -60,6 +61,16 @@ public class GlobalExceptionHandler {
     public ErrorInfoDto expiredJwtExceptionHandler(HttpServletRequest req, JwtException e) {
         ErrorInfoDto<String> errorInfoDto = new ErrorInfoDto<>();
         errorInfoDto.setMessage(HttpStatus.FORBIDDEN.getReasonPhrase());
+        errorInfoDto.setUrl(req.getRequestURL().toString());
+        errorInfoDto.getErrors().add(e.getLocalizedMessage());
+        return errorInfoDto;
+    }
+
+    @ExceptionHandler(value = ObjectNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorInfoDto objectNotFoundExceptionHandler(HttpServletRequest req, ObjectNotFoundException e) {
+        ErrorInfoDto<String> errorInfoDto = new ErrorInfoDto<>();
+        errorInfoDto.setMessage(HttpStatus.NOT_FOUND.getReasonPhrase());
         errorInfoDto.setUrl(req.getRequestURL().toString());
         errorInfoDto.getErrors().add(e.getLocalizedMessage());
         return errorInfoDto;

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookClassUtils {
 
-    public BookClassDto create(BookClass bookClass) {
+    public BookClassDto createBookClassDto(BookClass bookClass) {
         BookClassDto bookClassDto = new BookClassDto();
         bookClassDto.setBcid(bookClass.getBcid());
         bookClassDto.setIsbn(bookClass.getIsbn());
@@ -19,7 +19,7 @@ public class BookClassUtils {
         return bookClassDto;
     }
 
-    public BookClass create(CreateBookClassDto createBookClassDto) {
+    public BookClass createBookClass(CreateBookClassDto createBookClassDto) {
         BookClass bookClass = new BookClass();
         bookClass.setIsbn(createBookClassDto.getIsbn());
         bookClass.setName(createBookClassDto.getName());

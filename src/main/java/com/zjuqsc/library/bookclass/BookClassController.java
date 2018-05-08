@@ -5,6 +5,7 @@ import com.zjuqsc.library.auth.AuthConstant;
 import com.zjuqsc.library.bookclass.dto.BookClassDto;
 import com.zjuqsc.library.bookclass.dto.BookClassQueryDto;
 import com.zjuqsc.library.bookclass.dto.CreateBookClassDto;
+import com.zjuqsc.library.exception.ObjectNotFoundException;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,23 @@ public class BookClassController {
         this.bookClassUtils = bookClassUtils;
     }
 
+    @ApiOperation(value = "Get a bookClass by bcid")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorInfoDto.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorInfoDto.class),
+    })
+    @GetMapping(path = "/{bcid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public BookClassDto getBookClass(
+            @PathVariable("bcid") Integer bcid
+    ) throws ObjectNotFoundException {
+        BookClassDto bookClassDto = bookClassService.getBookClass(bcid);
+        if (bookClassDto == null) {
+            throw new ObjectNotFoundException("bcid", bcid);
+        }
+        return bookClassDto;
+    }
+
     @ApiOperation(value = "Get bookClasses")
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -56,6 +74,6 @@ public class BookClassController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public BookClassDto register(@Validated @RequestBody CreateBookClassDto createBookClassDto) {
-        return bookClassService.register(bookClassUtils.create(createBookClassDto));
+        return bookClassService.register(bookClassUtils.createBookClass(createBookClassDto));
     }
 }

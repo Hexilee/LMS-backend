@@ -18,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Li Chenxi
@@ -42,7 +43,7 @@ public class BookClassServiceImpl implements BookClassService {
     public Page<BookClassDto> getBookClassPage(Integer pageNum) {
         Pageable pageable = new PageRequest(pageNum, size, Sort.Direction.DESC, BOOK_CLASS_ID_KEY);
         return bookClassRepository.findAll(pageable)
-                .map(bookClass -> bookClassUtils.create(bookClass));
+                .map(bookClass -> bookClassUtils.createBookClassDto(bookClass));
     }
 
     @Override
@@ -64,22 +65,32 @@ public class BookClassServiceImpl implements BookClassService {
                     return criteriaBuilder.and(list.toArray(p));
 
                 }, pageable);
-        return bookClassPage.map(bookClass -> bookClassUtils.create(bookClass));
+        return bookClassPage.map(bookClass -> bookClassUtils.createBookClassDto(bookClass));
     }
 
     @Override
     public BookClassDto getBookClass(Integer bcid) {
-        return null;
+        BookClassDto bookClassDto = null;
+        Optional<BookClass> bookClass = bookClassRepository.findById(bcid);
+        if (bookClass.isPresent()) {
+            bookClassDto = bookClassUtils.createBookClassDto(bookClass.get());
+        }
+        return bookClassDto;
     }
 
     @Override
     public BookClassDto getBookClass(String isbn) {
-        return null;
+        BookClassDto bookClassDto = null;
+        BookClass bookClass = bookClassRepository.findByIsbn(isbn);
+        if (bookClass != null) {
+            bookClassDto = bookClassUtils.createBookClassDto(bookClass);
+        }
+        return bookClassDto;
     }
 
     @Override
     public BookClassDto register(BookClass bookClass) {
-        return bookClassUtils.create(
+        return bookClassUtils.createBookClassDto(
                 bookClassRepository.saveAndFlush(bookClass)
         );
     }
