@@ -3,7 +3,6 @@ package com.zjuqsc.library.auth;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,12 +22,6 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-    @Value("${security.jwt.header}")
-    private String tokenHeader;
-
-    @Value("${security.jwt.tokenHead}")
-    private String tokenHead;
-
     private AuthUtils authUtils;
 
     @Autowired
@@ -38,9 +31,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader(this.tokenHeader);
-        if (authHeader != null && authHeader.startsWith(tokenHead)) {
-            final String authToken = authHeader.substring(tokenHead.length());
+        authUtils.getToken(request).ifPresent(authToken -> {
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = authUtils.createUserInfo(authToken);
                 if (userDetails != null) {
@@ -54,7 +45,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     log.info("Unauthorized: UserDetails is null");
                 }
             }
-        }
+        });
         filterChain.doFilter(request, response);
     }
 }

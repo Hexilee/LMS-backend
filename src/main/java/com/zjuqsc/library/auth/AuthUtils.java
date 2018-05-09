@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * @author Li Chenxi
@@ -26,6 +28,12 @@ public class AuthUtils {
 
     @Value("${security.jwt.secret}")
     private String secret;
+
+    @Value("${security.jwt.header}")
+    private String tokenHeader;
+
+    @Value("${security.jwt.tokenHead}")
+    private String tokenHead;
 
     private ObjectMapper jacksonObjectMapper;
 
@@ -78,5 +86,14 @@ public class AuthUtils {
             log.info(e.getLocalizedMessage());
             return null;
         }
+    }
+
+    public Optional<String> getToken(HttpServletRequest request) {
+        Optional<String> token = Optional.empty();
+        String authHeader = request.getHeader(tokenHeader);
+        if (authHeader != null && authHeader.startsWith(tokenHead)) {
+            token = Optional.of(authHeader.substring(tokenHead.length()));
+        }
+        return token;
     }
 }
