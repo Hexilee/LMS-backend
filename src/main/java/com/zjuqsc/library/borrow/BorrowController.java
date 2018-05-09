@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/record")
 public class BorrowController {
     private static final String PAGE_ID_KEY = "pages";
+    private static final String STATUS_KEY = "status";
 
     private BorrowService borrowService;
     private BorrowUtils borrowUtils;
@@ -52,11 +54,19 @@ public class BorrowController {
     @ResponseStatus(HttpStatus.OK)
     public Page<BorrowDto> getRecords(
             HttpServletRequest request,
-            @RequestParam(value = PAGE_ID_KEY, defaultValue = "0") Integer pages
+            @RequestParam(value = PAGE_ID_KEY, defaultValue = "0") Integer pages,
+            @RequestParam(value = STATUS_KEY, required = false) BorrowStatus status
+
     ) throws ForbiddenException {
         return authUtils.getToken(request)
                 .map(token -> authUtils.createUserInfo(token).get())
-                .map(userInfoDto -> borrowService.getRecords(userInfoDto.getUid(), pages).get())
+                .map(userInfoDto -> {
+                    if (status == null) {
+                        return borrowService.getRecords(userInfoDto.getUid(), pages).get();
+                    } else {
+                        return borrowService.getRecords(userInfoDto.getUid(), pages, status).get();
+                    }
+                })
                 .orElseThrow(ForbiddenException::new);
     }
 

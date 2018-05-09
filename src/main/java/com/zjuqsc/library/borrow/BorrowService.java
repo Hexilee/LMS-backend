@@ -8,6 +8,10 @@ import java.util.Optional;
 
 public interface BorrowService {
     BorrowDto register(Borrow borrow);
+
     Optional<BorrowDto> returnByBorrowId(Integer borrowId, Integer uid);
+
     Optional<Page<BorrowDto>> getRecords(Integer uid, Integer pages);
+
+    Optional<Page<BorrowDto>> getRecords(Integer uid, Integer pages, BorrowStatus status);
 }

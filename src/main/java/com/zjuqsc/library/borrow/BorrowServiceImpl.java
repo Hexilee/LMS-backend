@@ -77,4 +77,37 @@ public class BorrowServiceImpl implements BorrowService {
                         .map(borrow -> borrowUtils.createBorrowDto(borrow))
                 );
     }
+
+    @Override
+    public Optional<Page<BorrowDto>> getRecords(Integer uid, Integer pages, BorrowStatus status) {
+        return authService.getUser(uid)
+                .map(user -> {
+                    Pageable pageable = new PageRequest(pages, size, Sort.Direction.DESC, BORROW_KEY);
+                    return borrowRepository.findAll(
+                            (Root<Borrow> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+                                List<Predicate> list = new ArrayList<>();
+                                list.add(criteriaBuilder.equal(root.get("user").as(User.class), user));
+                                switch (status) {
+                                    case DateValid: {
+                                        list.add(criteriaBuilder.isNull(root.get("returnedAt").as(Instant.class)));
+                                        list.add(criteriaBuilder.greaterThan(root.get("shouldReturnAt").as(Instant.class), Instant.now()));
+                                        break;
+                                    }
+                                    case DateLate: {
+                                        list.add(criteriaBuilder.isNull(root.get("returnedAt").as(Instant.class)));
+                                        list.add(criteriaBuilder.lessThan(root.get("shouldReturnAt").as(Instant.class), Instant.now()));
+                                        break;
+                                    }
+                                    case Returned:
+                                        list.add(criteriaBuilder.isNotNull(root.get("returnedAt").as(Instant.class)));
+                                    default: break;
+                                }
+                                Predicate[] p = new Predicate[list.size()];
+                                return criteriaBuilder.and(list.toArray(p));
+                            }, pageable);
+                })
+                .map(borrows -> borrows
+                        .map(borrow -> borrowUtils.createBorrowDto(borrow))
+                );
+    }
 }
