@@ -16,10 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -48,7 +47,7 @@ public class BorrowController {
     @ApiResponses({
             @ApiResponse(code = 403, message = "Forbidden"),
     })
-    @RolesAllowed(AuthConstant.USER)
+    @PreAuthorize("hasRole(T(com.zjuqsc.library.auth.AuthConstant).USER)")
     @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Page<BorrowDto> getRecords(
@@ -66,7 +65,7 @@ public class BorrowController {
             @ApiResponse(code = 409, message = "Conflict", response = ErrorInfoDto.class),
             @ApiResponse(code = 403, message = "Forbidden"),
     })
-    @RolesAllowed(AuthConstant.USER)
+    @PreAuthorize("hasRole(T(com.zjuqsc.library.auth.AuthConstant).USER)")
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public BorrowDto borrow(
@@ -87,7 +86,7 @@ public class BorrowController {
             @ApiResponse(code = 404, message = "Not Found", response = ErrorInfoDto.class),
             @ApiResponse(code = 403, message = "Forbidden"),
     })
-    @RolesAllowed(AuthConstant.USER)
+    @PreAuthorize("hasRole(T(com.zjuqsc.library.auth.AuthConstant).USER)")
     @PutMapping(path = "/{borrowId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BorrowDto returnBook(
