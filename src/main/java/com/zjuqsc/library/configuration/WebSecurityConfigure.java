@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -35,10 +36,12 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
     };
 
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Autowired
-    public WebSecurityConfigure(JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
+    public WebSecurityConfigure(JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter, AuthenticationFailureHandler authenticationFailureHandler) {
         this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
+        this.authenticationFailureHandler = authenticationFailureHandler;
     }
 
     @Bean
