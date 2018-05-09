@@ -65,7 +65,7 @@ public class BookClassController {
         return bookClassService.getBookClassPage(pages, new BookClassQueryDto(query));
     }
 
-    @ApiOperation(value = "Create a new bookClass", authorizations = @Authorization(value = "authKey"))
+    @ApiOperation(value = "Create a new bookClass", authorizations = @Authorization(value = AuthConstant.JWT_AUTH_NAME))
     @ApiResponses({
             @ApiResponse(code = 400, message = "Bad Request", response = ErrorInfoDto.class),
             @ApiResponse(code = 409, message = "Conflict", response = ErrorInfoDto.class),

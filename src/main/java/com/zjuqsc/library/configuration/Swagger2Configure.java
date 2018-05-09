@@ -1,5 +1,6 @@
 package com.zjuqsc.library.configuration;
 
+import com.zjuqsc.library.auth.AuthConstant;
 import com.zjuqsc.library.config.SwaggerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -79,6 +80,6 @@ public class Swagger2Configure {
     }
 
     private ApiKey apiKey() {
-        return new ApiKey("authKey", tokenHeader, "header");
+        return new ApiKey(AuthConstant.JWT_AUTH_NAME, tokenHeader, "header");
     }
 }

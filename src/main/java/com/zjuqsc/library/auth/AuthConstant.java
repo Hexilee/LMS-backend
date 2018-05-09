@@ -11,4 +11,5 @@ public class AuthConstant {
     public static final String USER = "USER";
     public static final String USER_KEY = "user";
     public static final String AUTH_HEADER = "Authorization";
+    public static final String JWT_AUTH_NAME = "jwt-auth";
 }
