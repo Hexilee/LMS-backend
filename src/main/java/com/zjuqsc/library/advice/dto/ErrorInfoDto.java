@@ -18,6 +18,6 @@ public class ErrorInfoDto<T> {
     private String message;
     private String url;
 
-    @ApiModelProperty(example = "[email]")
+    @ApiModelProperty(example = "[\"email\"]")
     private List<T> errors = new ArrayList<>();
 }
