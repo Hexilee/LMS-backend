@@ -1,12 +1,10 @@
 package com.zjuqsc.library.book;
 
 import com.zjuqsc.library.advice.dto.ErrorInfoDto;
+import com.zjuqsc.library.auth.AuthConstant;
 import com.zjuqsc.library.book.dto.BookDto;
 import com.zjuqsc.library.exception.ResourceKeyNotExistException;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -43,7 +41,7 @@ public class BookController {
                 .orElseThrow(() -> new ResourceKeyNotExistException(BCID_KEY, bcid));
     }
 
-    @ApiOperation(value = "Register a book by bcid")
+    @ApiOperation(value = "Register a book by bcid", authorizations = @Authorization(value = AuthConstant.JWT_AUTH_NAME))
     @ApiResponses({
             @ApiResponse(code = 409, message = "Conflict", response = ErrorInfoDto.class),
             @ApiResponse(code = 403, message = "Forbidden"),

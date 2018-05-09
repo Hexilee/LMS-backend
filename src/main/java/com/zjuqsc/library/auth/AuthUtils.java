@@ -69,23 +69,25 @@ public class AuthUtils {
         return info;
     }
 
-    public UserInfoDto createUserInfo(String token) {
-        String sub = Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-
+    public Optional<UserInfoDto> createUserInfo(String token) {
+        Optional<UserInfoDto> userInfoDto = Optional.empty();
         try {
+            String sub = Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
             log.info("Sub: " + sub);
-            return jacksonObjectMapper.readValue(
-                    sub,
-                    UserInfoDto.class
+            userInfoDto = Optional.ofNullable(
+                    jacksonObjectMapper.readValue(
+                            sub,
+                            UserInfoDto.class
+                    )
             );
         } catch (IOException e) {
             log.info(e.getLocalizedMessage());
-            return null;
         }
+        return userInfoDto;
     }
 
     public Optional<String> getToken(HttpServletRequest request) {

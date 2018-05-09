@@ -33,17 +33,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         authUtils.getToken(request).ifPresent(authToken -> {
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = authUtils.createUserInfo(authToken);
-                if (userDetails != null) {
-                    log.info("Authorized: " + userDetails.toString());
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                            request));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else {
-                    log.info("Unauthorized: UserDetails is null");
-                }
+                authUtils.createUserInfo(authToken)
+                        .ifPresent(userDetails -> {
+                            log.info("Authorized: " + userDetails.toString());
+                            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                                    request));
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        });
             }
         });
         filterChain.doFilter(request, response);
