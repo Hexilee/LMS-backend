@@ -1,13 +1,14 @@
 package com.zjuqsc.library.auth;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zjuqsc.library.auth.dto.TokenDto;
 import com.zjuqsc.library.entity.User;
 import com.zjuqsc.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author Li Chenxi
@@ -54,5 +55,10 @@ public class AuthServiceImpl implements AuthService {
             tokenDto = genTokenDtoByUser(user);
         }
         return tokenDto;
+    }
+
+    @Override
+    public Optional<User> getUser(Integer uid) {
+        return userRepository.findById(uid);
     }
 }
