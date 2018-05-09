@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+
 /**
  * @author Li Chenxi
  */
@@ -46,6 +48,7 @@ public class BookController {
             @ApiResponse(code = 409, message = "Conflict", response = ErrorInfoDto.class),
             @ApiResponse(code = 403, message = "Forbidden"),
     })
+    @RolesAllowed(AuthConstant.ADMIN)
     @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto register(
