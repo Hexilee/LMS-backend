@@ -42,6 +42,7 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public BorrowDto register(Borrow borrow) {
+        borrow.getBook().setAccessible(false);
         return borrowUtils.createBorrowDto(borrowRepository.saveAndFlush(borrow));
     }
 
@@ -51,6 +52,8 @@ public class BorrowServiceImpl implements BorrowService {
                 .filter(borrow -> uid.equals(borrow.getUser().getUid()))
                 .map(borrow -> {
                             borrow.setReturnedAt(Instant.now());
+                            borrow.getBook().setAccessible(true);
+                            borrowRepository.saveAndFlush(borrow);
                             return borrow;
                         }
                 )

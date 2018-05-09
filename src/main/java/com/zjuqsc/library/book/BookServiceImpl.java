@@ -41,16 +41,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<BookDto> register(Integer bcid) {
-        Optional<BookDto> bookDto = Optional.empty();
-        Optional<BookClass> bookClass = bookClassRepository.findById(bcid);
-        if (bookClass.isPresent()) {
-            Book book = new Book() {{
-                setBookClass(bookClass.get());
-                setAccessible(true);
-            }};
-            bookDto = Optional.ofNullable(bookUtils.creaetBookDto(bookRepository.saveAndFlush(book)));
-        }
-        return bookDto;
+        return bookClassRepository.findById(bcid)
+                .map(bookClass -> {
+                    Book book = new Book();
+                    book.setBookClass(bookClass);
+                    book.setAccessible(true);
+                    return book;
+                })
+                .map(book -> bookUtils.createBookDto(bookRepository.saveAndFlush(book)));
     }
 
     @Override
@@ -66,7 +64,7 @@ public class BookServiceImpl implements BookService {
                         Predicate[] p = new Predicate[list.size()];
                         return criteriaBuilder.and(list.toArray(p));
                     }, pageable);
-            bookDtoPage = Optional.of(bookPage.map(book -> bookUtils.creaetBookDto(book)));
+            bookDtoPage = Optional.of(bookPage.map(book -> bookUtils.createBookDto(book)));
         }
         return bookDtoPage;
     }

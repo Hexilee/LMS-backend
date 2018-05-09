@@ -2,6 +2,7 @@ package com.zjuqsc.library.borrow;
 
 import com.zjuqsc.library.borrow.dto.BorrowDto;
 import com.zjuqsc.library.borrow.dto.CreateBorrowDto;
+import com.zjuqsc.library.entity.Book;
 import com.zjuqsc.library.entity.Borrow;
 import com.zjuqsc.library.entity.User;
 import com.zjuqsc.library.repository.BookRepository;
@@ -22,11 +23,14 @@ public class BorrowUtils {
 
     public Optional<Borrow> createBorrow(CreateBorrowDto createBorrowDto, User user) {
         return bookRepository.findById(createBorrowDto.getBid())
-                .map(book -> new Borrow() {{
-                            setBook(book);
-                            setUser(user);
-                            setShouldReturnAt(Instant.ofEpochSecond(System.currentTimeMillis() / 1000 + createBorrowDto.getSeconds()));
-                        }}
+                .filter(Book::isAccessible)
+                .map(book -> {
+                            Borrow borrow = new Borrow();
+                            borrow.setBook(book);
+                            borrow.setUser(user);
+                            borrow.setShouldReturnAt(Instant.ofEpochSecond(System.currentTimeMillis() / 1000 + createBorrowDto.getSeconds()));
+                            return borrow;
+                        }
                 );
     }
 

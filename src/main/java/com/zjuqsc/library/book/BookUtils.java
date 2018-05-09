@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BookUtils {
-    public BookDto creaetBookDto(Book book) {
+    public BookDto createBookDto(Book book) {
         BookDto bookDto = new BookDto();
         bookDto.setBid(book.getBid());
         bookDto.setBcid(book.getBookClass().getBcid());
