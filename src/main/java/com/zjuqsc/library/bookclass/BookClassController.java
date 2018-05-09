@@ -39,6 +39,7 @@ public class BookClassController {
     @ApiResponses({
             @ApiResponse(code = 400, message = "Bad Request", response = ErrorInfoDto.class),
             @ApiResponse(code = 404, message = "Not Found", response = ErrorInfoDto.class),
+            @ApiResponse(code = 403, message = "Forbidden"),
     })
     @GetMapping(path = "/{bcid}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)

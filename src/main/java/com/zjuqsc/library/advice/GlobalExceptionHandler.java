@@ -2,7 +2,7 @@ package com.zjuqsc.library.advice;
 
 import com.zjuqsc.library.advice.dto.ErrorInfoDto;
 import com.zjuqsc.library.exception.ObjectNotFoundException;
-import com.zjuqsc.library.token.exception.ResourceKeyNotExistException;
+import com.zjuqsc.library.exception.ResourceKeyNotExistException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;

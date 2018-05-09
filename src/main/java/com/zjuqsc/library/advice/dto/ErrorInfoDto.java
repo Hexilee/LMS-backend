@@ -1,6 +1,7 @@
 package com.zjuqsc.library.advice.dto;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.Instant;
@@ -16,5 +17,7 @@ public class ErrorInfoDto<T> {
     private Instant time = Instant.now();
     private String message;
     private String url;
+
+    @ApiModelProperty(example = "[email]")
     private List<T> errors = new ArrayList<>();
 }

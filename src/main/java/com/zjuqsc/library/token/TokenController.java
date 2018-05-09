@@ -5,7 +5,7 @@ import com.zjuqsc.library.advice.dto.ErrorInfoDto;
 import com.zjuqsc.library.auth.AuthService;
 import com.zjuqsc.library.auth.dto.TokenDto;
 import com.zjuqsc.library.token.dto.LoginDto;
-import com.zjuqsc.library.token.exception.ResourceKeyNotExistException;
+import com.zjuqsc.library.exception.ResourceKeyNotExistException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
