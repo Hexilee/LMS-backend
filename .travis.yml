@@ -1,3 +1,13 @@
+language: java
+sudo: false
+
+notifications: # 每次构建的时候是否通知，如果不想收到通知，那就设置false吧(email: false)
+  email:
+    recipients:
+    - hexileee@gmail.com
+  on_success: change
+  on_failure: always
+
 services:
   - mysql
 
@@ -5,10 +15,8 @@ before_install:
   - mysql -e 'CREATE DATABASE library_test;'
   - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('TestPassword') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
 
-build:
-  script:
+install:
   - SPRING_PROFILES_ACTIVE=test ./gradlew build
 
-test:
-  script:
+script:
   - SPRING_PROFILES_ACTIVE=test ./gradlew test
