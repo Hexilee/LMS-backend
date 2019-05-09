@@ -2,6 +2,9 @@ dist: xenial
 language: java
 sudo: false
 
+java:
+  - "8"
+
 notifications: # 每次构建的时候是否通知，如果不想收到通知，那就设置false吧(email: false)
   email:
     recipients:
